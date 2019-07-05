@@ -1,0 +1,31 @@
+
+nginx相关 
+window下 进入nginx目录，启动cmd
+start nginx               -- 启动
+nginx -s reload        -- 重载配置
+nginx -s quit            --退出
+nginx -s stop
+
+https 转发
+location /ni-tour-service {
+			
+    proxy_pass  http://localhost:8087/;
+			
+    #proxy_set_header        Host $host;
+      
+}
+
+
+
+yum info ni-tour-web                 --查看安装的信息
+yum remove ni-tour-web            --移除
+yum install ni-tour-web               --安装rpm包
+
+
+vim 
+打开文件
+i                       -  insert插入
+esc                   - 退出   
+shif + :             -输入命令
+                                      wq ( write quit )   
+                                      q ( quit )

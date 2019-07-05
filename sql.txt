@@ -1,0 +1,6 @@
+select st_astext(st_envelope(bounds)),* from scenic_info    -- 边界范围
+UPDATE scenic_info SET bounds=ST_TRANSLATE(bounds, 0, -0.01);   --平移
+
+update scenic_info set bounds=(
+select st_setsrid(bounds,4326) from scenic_info  -- 改变坐标系
+

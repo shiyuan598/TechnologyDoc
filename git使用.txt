@@ -1,0 +1,101 @@
+1. 基础使用
+# git clone url <asName>  从现有的repository克隆到本地，最后的asName是别名，可选项
+
+#新建本地仓库   （安装git后）在要创建git仓库repository的地方右键  git bash here   
+$git init repository 
+cd repositoryName  命令行进入git仓库
+
+# git status   查看当前git仓库的状况，能知道是否有更新需要暂存add，是否有暂存需要commit 或 reset, 以及commit to push
+# git add /rm.    add 的作用很多，可以track新文件, 添加修改到stage,    rm filename : 移除文件
+
+git add 的使用有不同方式，
+# git add <filename>  -- 单独一个文件名
+# git add <dirname>  -- 目录名
+
+# git add xx命令可以将xx文件添加到暂存区，如果有很多改动可以通过 git add -A .来一次添加所有改变的文件。注意 -A 选项后面还有一个句点。
+# git add -A   表示添加所有内容
+# git add .      表示添加新文件和编辑过的文件不包括删除的文件;
+# git add -u   表示添加编辑或者删除的文件，不包括新添加的文件
+
+# git commit -m "comment"
+
+# git push 推送到远程repository
+
+如果远程库有更新，则需要先更新后再提交
+# git pull 拉取最新的内容
+
+建议频繁使用
+git status
+git add
+git commit
+git push
+
+
+2. 从已有项目创建git  repository 
+
+#连接到远程仓库并为该仓库repository创建别名 , 别名为origin . 这个别名是自定义的，通常用origin ; 远程repository地址
+git remote add origin 远程仓库地址
+
+#创建一个 upStream （上传流），并将本地代码通过这个 upStream 推送到 别名为 origin 的仓库中的 master 分支上
+git push -u origin master
+
+远程分支已经有内容时：
+push远程分支报错：refusing to merge unrelated histories
+git pull origin master --allow-unrelated-histories
+
+4. git 分支
+git branch -a                             --列出所有分支  有 * 的是当前分支
+git branch -v                             --所有分支最后提交信息
+git branch newbranch               --创建分支
+git checkout branch                  --切换分支，需要先commit所有内容
+git merge branchName             --合并分支到当前分支，有冲突时不会提交，需要合并后commit
+git branch -d branchName        --删除分支
+以上都是本地分支，建议频繁使用分支
+
+TODO：
+远程分支
+
+
+4. git撤销
+a. 在工作区的改动，未add之前   --恢复工作区的内容
+使用git checkout .   恢复全部内容( . )，当然也可以使用git checkout <filename> 或git checkout <dirname>
+
+b. 改动已经执行过add命令         --恢复暂存区的内容
+git reset HEAD .                       -- 全部恢复
+git reset HEAD <filename>
+
+c. 改动已经commit，但是未push      --恢复本地仓库的内容
+先git log 查看提交历史
+git reset <commitid>                     --退到工作空间，即把commit 回退  add 回退，改动还在，远程的commit也在
+git reset --soft <commitid>           --退到暂存区，即把commit 回退  add 不回退，远程的commit也在(git pull 即可恢复)
+git reset --mixed <commitid>        --退到工作空间，默认行为，即把commit 回退  add 不回退，远程的commit也在
+
+************不可轻用，否则必将付出惨痛代价***********************
+git reset --hard <commitid>           --退到上次commit的位置，即把commit 回退  add 回退  工作空间回退，远程的commit也 **消失** 了
+************不可轻用，否则必将付出惨痛代价***********************
+
+
+5. 用户名配置
+
+# fatal: unable to access错误时执行如下操作
+# 1.清除缓存中的配置信息
+# 运行一下命令缓存输入的用户名和密码：
+# git config --global credential.helper wincred
+# 清除掉缓存在git中的用户名和密码
+# git credential-manager uninstall
+
+git config --global user.name shiyuan #设置用户名
+git config --global user.email wangyuanhpu@163.com #设置用户邮箱
+
+git config  user.name shiyuan #设置本目录的用户名
+git config  user.email wangyuanhpu@163.com #设置本目录的用户邮箱
+
+# 然后再push，输入一次用户名密码后再执行2，缓存用户、密码
+# 2.创建文件存储GIT用户名和密码
+# git config --global credential.helper store
+
+
+# 执行完后查看%HOME%目录下的.gitconfig文件，会多了一项：                        ****重新开启git bash***
+# 　　[credential]
+# 　　helper = store
+# 　　重新开启git bash会发现git push时不用再输入用户名和密码
